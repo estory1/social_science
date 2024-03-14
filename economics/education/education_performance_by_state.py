@@ -1,5 +1,5 @@
 #%%[markdown]
-## US per-state education performance comparison
+## US Per-State Public Education Value-for-Money Comparison
 #
 # Date created: 20240313
 
@@ -183,8 +183,8 @@ dfm.describe()
 ### Compare IL to basic descriptive stats (mean, 25/50/75th percentiles, etc.) aggregating all US states.
 # IL's values for each column are divided by the national aggregate for each column, and reported as a percentage. Therefore:
 # *   100: IL equivalent to the national aggregate.
-# * &lt; 100: IL underperforms the national aggregate (bad! Except for COL and total tax revenue).
-# * &gt; 100: IL outperforms the national aggregate (good! Except for COL and total tax revenue).
+# * &lt; 100: IL underperforms the national aggregate.
+# * &gt; 100: IL outperforms the national aggregate.
 #%%
 round(
     (dfm.loc["Illinois"] / dfm.describe() * 100).loc[
@@ -246,6 +246,27 @@ dfm_vfm_sat.head(10)
 dfm_vfm_sat.plot.bar(figsize=(10,6),ylabel="Ratio: Average SAT Score /\n State's Public Spending Per K-12 Student")
 
 
+#%%[markdown]
+#### What about spending as a % of taxpayer income?
+# %%
+# ACT
+dfm_vfm_act = (dfm["Average ACT Score"] / dfm["K-12 Spending As Perc Taxpayer Income"]).sort_values(ascending=False).dropna()
+print("* Illinois' rank on ACT value-for-money (= state avg ACT / public expense per K-12 student as % of taxpayer income) is #{}. Top 10 states:".format(dfm_vfm_act.index.get_loc("Illinois")+1))
+dfm_vfm_act.head(10)
+#%%
+# distribution chart
+dfm_vfm_act.plot.bar(figsize=(10,6),ylabel="Ratio: Average ACT Score /\n State's K-12 Spending As Perc Taxpayer Income")
+
+# %%
+# SAT
+dfm_vfm_sat = (dfm["Average SAT Score"] / dfm["K-12 Spending As Perc Taxpayer Income"]).sort_values(ascending=False).dropna()
+print("* Illinois' rank on SAT value-for-money (= state avg SAT / public expense per K-12 student as % of taxpayer income) is #{}. Top 10 states:".format(dfm_vfm_sat.index.get_loc("Illinois")+1))
+dfm_vfm_sat.head(10)
+#%%
+# distribution chart
+dfm_vfm_sat.plot.bar(figsize=(10,6),ylabel="Ratio: Average SAT Score /\n State's K-12 Spending As Perc Taxpayer Income")
+
+
 
 # %%[markdown]
 ## What about middle-school outcomes?
@@ -272,6 +293,28 @@ dfm_vfm_g8read.head(10)
 dfm_vfm_g8read.plot.bar(figsize=(10,6),ylabel="Ratio: Grade 8 Reading % proficient /\n State's Public Spending per K-12 Student")
 
 
+#%%[markdown]
+#### What about spending as a % of taxpayer income?
+# %%
+dfm_vfm_g8math = (dfm["Grade 8 Math % at/above Proficient"] / dfm["K-12 Spending As Perc Taxpayer Income"]).sort_values(ascending=False).dropna()
+print("* Illinois' rank on Grade 8 Math value-for-money (= state avg Grade 8 Math / public expense per K-12 student as % of taxpayer income) is #{}. Top 10 states:".format(dfm_vfm_g8math.index.get_loc("Illinois")+1))
+dfm_vfm_g8math.head(10)
+#%%
+# distribution chart
+dfm_vfm_g8math.plot.bar(figsize=(10,6),ylabel="Ratio: Grade 8 Math % proficient /\n State's K-12 Spending As Perc Taxpayer Income")
+
+# %%[markdown]
+### What states maximize student-outcome-for-collected-per-capita-tax-dollar, as measured by Grade 8 Reading and Public Spending Per K-12 Student?
+# %%
+dfm_vfm_g8read = (dfm["Grade 8 Reading % at/above Proficient"] / dfm["K-12 Spending As Perc Taxpayer Income"]).sort_values(ascending=False).dropna()
+print("* Illinois' rank on Grade 8 Reading value-for-money (= state avg Grade 8 Reading / public expense per K-12 student as % of taxpayer income) is #{}. Top 10 states:".format(dfm_vfm_g8read.index.get_loc("Illinois")+1))
+dfm_vfm_g8read.head(10)
+#%%
+# distribution chart
+dfm_vfm_g8read.plot.bar(figsize=(10,6),ylabel="Ratio: Grade 8 Reading % proficient /\n State's K-12 Spending As Perc Taxpayer Income")
+
+
+
 
 # %%[markdown]
 ## What about grade-school outcomes?
@@ -296,6 +339,30 @@ dfm_vfm_g8read.head(10)
 #%%
 # distribution chart
 dfm_vfm_g8read.plot.bar(figsize=(10,6),ylabel="Ratio: Grade 4 Reading % proficient /\n State's Public Spending per K-12 Student")
+
+
+#%%[markdown]
+#### What about spending as a % of taxpayer income?
+# %%[markdown]
+### What states maximize student-outcome-for-collected-per-capita-tax-dollar, as measured by Grade 4 Math and Public Spending Per K-12 Student?
+# %%
+dfm_vfm_g8math = (dfm["Grade 4 Math % at/above Proficient"] / dfm["K-12 Spending As Perc Taxpayer Income"]).sort_values(ascending=False).dropna()
+print("* Illinois' rank on Grade 4 Math value-for-money (= state avg Grade 4 Math / public expense per K-12 student) is #{}. Top 10 states:".format(dfm_vfm_g8math.index.get_loc("Illinois")+1))
+dfm_vfm_g8math.head(10)
+#%%
+# distribution chart
+dfm_vfm_g8math.plot.bar(figsize=(10,6),ylabel="Ratio: Grade 4 Math % proficient /\n State's K-12 Spending As Perc Taxpayer Income")
+
+# %%[markdown]
+### What states maximize student-outcome-for-collected-per-capita-tax-dollar, as measured by Grade 4 Reading and Public Spending Per K-12 Student?
+# %%
+dfm_vfm_g8read = (dfm["Grade 4 Reading % at/above Proficient"] / dfm["K-12 Spending As Perc Taxpayer Income"]).sort_values(ascending=False).dropna()
+print("* Illinois' rank on Grade 4 Reading value-for-money (= state avg Grade 4 Reading / public expense per K-12 student) is #{}. Top 10 states:".format(dfm_vfm_g8read.index.get_loc("Illinois")+1))
+dfm_vfm_g8read.head(10)
+#%%
+# distribution chart
+dfm_vfm_g8read.plot.bar(figsize=(10,6),ylabel="Ratio: Grade 4 Reading % proficient /\n State's K-12 Spending As Perc Taxpayer Income")
+
 
 
 
