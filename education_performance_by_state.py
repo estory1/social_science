@@ -199,8 +199,8 @@ dfm_vfm_mcat = (dfm["Average MCAT Score"] / dfm["Total Tax Revenue per Capita"])
 print("* Illinois' rank on MCAT value-for-money (= state avg MCAT / state per-capita tax revenue) is #{}. Top 10 states:".format(dfm_vfm_mcat.index.get_loc("Illinois")+1))
 dfm_vfm_mcat.head(10)
 #%%
-# bottom 10 states
-dfm_vfm_mcat.tail(10)
+# distribution chart
+dfm_vfm_mcat.plot.bar(figsize=(10,6),ylabel="Ratio: Average MCAT Score / Total Tax Revenue per Capita")
 
 # %%[markdown]
 ### What states maximize student-outcome-for-collected-per-capita-tax-dollar, as measured by Average ACT?
@@ -209,8 +209,8 @@ dfm_vfm_act = (dfm["Average ACT Score"] / dfm["Total Tax Revenue per Capita"]).s
 print("* Illinois' rank on ACT value-for-money (= state avg ACT / state per-capita tax revenue) is #{}. Top 10 states:".format(dfm_vfm_act.index.get_loc("Illinois")+1))
 dfm_vfm_act.head(10)
 #%%
-# bottom 10 states
-dfm_vfm_act.tail(10)
+# distribution chart
+dfm_vfm_act.plot.bar(figsize=(10,6),ylabel="Ratio: Average ACT Score / Total Tax Revenue per Capita")
 
 # %%[markdown]
 ### What states maximize student-outcome-for-collected-per-capita-tax-dollar, as measured by Average SAT?
@@ -219,33 +219,83 @@ dfm_vfm_sat = (dfm["Average SAT Score"] / dfm["Total Tax Revenue per Capita"]).s
 print("* Illinois' rank on SAT value-for-money (= state avg SAT / state per-capita tax revenue) is #{}. Top 10 states:".format(dfm_vfm_sat.index.get_loc("Illinois")+1))
 dfm_vfm_sat.head(10)
 #%%
-# bottom 10 states
-dfm_vfm_sat.tail(10)
+# distribution chart
+dfm_vfm_sat.plot.bar(figsize=(10,6),ylabel="Ratio: Average SAT Score / Total Tax Revenue per Capita")
+
+
+
+#%%[markdown]
+### ACT & SAT are HS-matriculation tests for university-bound students. And each state allocates its total tax rake differently; some a greater % to education than others.
+#### So maybe a fairer comparison is ACT & SAT scores against K-12 spending?
+# %%
+# ACT
+dfm_vfm_act = (dfm["Average ACT Score"] / dfm["Public Spending Per K-12 Student"]).sort_values(ascending=False).dropna()
+print("* Illinois' rank on ACT value-for-money (= state avg ACT / public expense per K-12 student) is #{}. Top 10 states:".format(dfm_vfm_act.index.get_loc("Illinois")+1))
+dfm_vfm_act.head(10)
+#%%
+# distribution chart
+dfm_vfm_act.plot.bar(figsize=(10,6),ylabel="Ratio: Average ACT Score /\n State's Public Spending Per K-12 Student")
+
+# %%
+# SAT
+dfm_vfm_sat = (dfm["Average SAT Score"] / dfm["Public Spending Per K-12 Student"]).sort_values(ascending=False).dropna()
+print("* Illinois' rank on SAT value-for-money (= state avg SAT / public expense per K-12 student) is #{}. Top 10 states:".format(dfm_vfm_sat.index.get_loc("Illinois")+1))
+dfm_vfm_sat.head(10)
+#%%
+# distribution chart
+dfm_vfm_sat.plot.bar(figsize=(10,6),ylabel="Ratio: Average SAT Score /\n State's Public Spending Per K-12 Student")
+
 
 
 # %%[markdown]
-## Okay, but different states allocate total tax revenues differently.
-### Perhaps a fairer comparison is grade 8 math % proficiency to per-state K-12 spending instead.
+## What about middle-school outcomes?
+### Compare grade 8 math % proficiency to per-state K-12 spending.
 
 # %%[markdown]
 ### What states maximize student-outcome-for-collected-per-capita-tax-dollar, as measured by Grade 8 Math and Public Spending Per K-12 Student?
 # %%
 dfm_vfm_g8math = (dfm["Grade 8 Math % at/above Proficient"] / dfm["Public Spending Per K-12 Student"]).sort_values(ascending=False).dropna()
-print("* Illinois' rank on Grade 8 Math value-for-money (= state avg Grade 8 Math / state Public Spending Per K-12 Student) is #{}. Top 10 states:".format(dfm_vfm_g8math.index.get_loc("Illinois")+1))
+print("* Illinois' rank on Grade 8 Math value-for-money (= state avg Grade 8 Math / public expense per K-12 student) is #{}. Top 10 states:".format(dfm_vfm_g8math.index.get_loc("Illinois")+1))
 dfm_vfm_g8math.head(10)
 #%%
-# bottom 10 states
-dfm_vfm_g8math.tail(10)
+# distribution chart
+dfm_vfm_g8math.plot.bar(figsize=(10,6),ylabel="Ratio: Grade 8 Math % proficient /\n State's Public Spending per K-12 Student")
 
 # %%[markdown]
 ### What states maximize student-outcome-for-collected-per-capita-tax-dollar, as measured by Grade 8 Reading and Public Spending Per K-12 Student?
 # %%
 dfm_vfm_g8read = (dfm["Grade 8 Reading % at/above Proficient"] / dfm["Public Spending Per K-12 Student"]).sort_values(ascending=False).dropna()
-print("* Illinois' rank on Grade 8 Reading value-for-money (= state avg Grade 8 Reading / state Public Spending Per K-12 Student) is #{}. Top 10 states:".format(dfm_vfm_g8read.index.get_loc("Illinois")+1))
+print("* Illinois' rank on Grade 8 Reading value-for-money (= state avg Grade 8 Reading / public expense per K-12 student) is #{}. Top 10 states:".format(dfm_vfm_g8read.index.get_loc("Illinois")+1))
 dfm_vfm_g8read.head(10)
 #%%
-# bottom 10 states
-dfm_vfm_g8read.tail(10)
+# distribution chart
+dfm_vfm_g8read.plot.bar(figsize=(10,6),ylabel="Ratio: Grade 8 Reading % proficient /\n State's Public Spending per K-12 Student")
+
+
+
+# %%[markdown]
+## What about grade-school outcomes?
+### Compare grade 4 math % proficiency to per-state K-12 spending.
+
+# %%[markdown]
+### What states maximize student-outcome-for-collected-per-capita-tax-dollar, as measured by Grade 4 Math and Public Spending Per K-12 Student?
+# %%
+dfm_vfm_g8math = (dfm["Grade 4 Math % at/above Proficient"] / dfm["Public Spending Per K-12 Student"]).sort_values(ascending=False).dropna()
+print("* Illinois' rank on Grade 4 Math value-for-money (= state avg Grade 4 Math / public expense per K-12 student) is #{}. Top 10 states:".format(dfm_vfm_g8math.index.get_loc("Illinois")+1))
+dfm_vfm_g8math.head(10)
+#%%
+# distribution chart
+dfm_vfm_g8math.plot.bar(figsize=(10,6),ylabel="Ratio: Grade 4 Math % proficient /\n State's Public Spending per K-12 Student")
+
+# %%[markdown]
+### What states maximize student-outcome-for-collected-per-capita-tax-dollar, as measured by Grade 4 Reading and Public Spending Per K-12 Student?
+# %%
+dfm_vfm_g8read = (dfm["Grade 4 Reading % at/above Proficient"] / dfm["Public Spending Per K-12 Student"]).sort_values(ascending=False).dropna()
+print("* Illinois' rank on Grade 4 Reading value-for-money (= state avg Grade 4 Reading / public expense per K-12 student) is #{}. Top 10 states:".format(dfm_vfm_g8read.index.get_loc("Illinois")+1))
+dfm_vfm_g8read.head(10)
+#%%
+# distribution chart
+dfm_vfm_g8read.plot.bar(figsize=(10,6),ylabel="Ratio: Grade 4 Reading % proficient /\n State's Public Spending per K-12 Student")
 
 
 
@@ -283,7 +333,7 @@ rf.fit(X_train, y_train)
 pd.DataFrame(zip(rf.feature_names_in_, rf.feature_importances_),columns=["name","importance"]).sort_values(by="importance", ascending=False)
 
 # %%
-# Same now, except for Grade 8 Reading.
+# Same now, but for Grade 8 Reading.
 # Split the dataset into training and testing sets
 X = df.dropna()[list(set(df.columns)-set(["Grade 8 Reading % at/above Proficient"]))]
 y = df.dropna()['Grade 8 Reading % at/above Proficient']
@@ -296,4 +346,44 @@ rf.fit(X_train, y_train)
 # Print the best features found by the RF
 pd.DataFrame(zip(rf.feature_names_in_, rf.feature_importances_),columns=["name","importance"]).sort_values(by="importance", ascending=False)
 
+#%%
+# Same now, but for Average MCAT Score.
+# Split the dataset into training and testing sets
+X = df.dropna()[list(set(df.columns)-set(["Average MCAT Score"]))]
+y = df.dropna()['Average MCAT Score']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train a random forest classifier on the training set
+rf = RandomForestRegressor(n_estimators=10, random_state=42)
+rf.fit(X_train, y_train)
+
+# Print the best features found by the RF
+pd.DataFrame(zip(rf.feature_names_in_, rf.feature_importances_),columns=["name","importance"]).sort_values(by="importance", ascending=False)
+
 # %%
+# Same now, but for Average ACT Score.
+# Split the dataset into training and testing sets
+X = df.dropna()[list(set(df.columns)-set(["Average ACT Score"]))]
+y = df.dropna()['Average ACT Score']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train a random forest classifier on the training set
+rf = RandomForestRegressor(n_estimators=10, random_state=42)
+rf.fit(X_train, y_train)
+
+# Print the best features found by the RF
+pd.DataFrame(zip(rf.feature_names_in_, rf.feature_importances_),columns=["name","importance"]).sort_values(by="importance", ascending=False)
+
+#%%
+# Same now, but for Average SAT Score.
+# Split the dataset into training and testing sets
+X = df.dropna()[list(set(df.columns)-set(["Average SAT Score"]))]
+y = df.dropna()['Average SAT Score']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train a random forest classifier on the training set
+rf = RandomForestRegressor(n_estimators=10, random_state=42)
+rf.fit(X_train, y_train)
+
+# Print the best features found by the RF
+pd.DataFrame(zip(rf.feature_names_in_, rf.feature_importances_),columns=["name","importance"]).sort_values(by="importance", ascending=False)
