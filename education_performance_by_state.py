@@ -1,5 +1,7 @@
 #%%[markdown]
-# US per-state education performance comparison
+## US per-state education performance comparison
+#
+# Date created: 20240313
 
 #%%
 import pandas as pd
@@ -12,8 +14,9 @@ import re
 pd.options.display.max_rows = 200
 pd.options.display.max_columns = 50
 
+#%%[markdown]
+# src: [Which State Has The Best Test Scores? Analyzing Standardized Testing Trends – Forbes Advisor](https://www.forbes.com/advisor/education/student-resources/which-states-have-the-highest-standardized-test-scores/)
 #%%
-# [Which State Has The Best Test Scores? Analyzing Standardized Testing Trends – Forbes Advisor](https://www.forbes.com/advisor/education/student-resources/which-states-have-the-highest-standardized-test-scores/)
 data1 = """Rank	State	Grade 4 Math % at/above Proficient	Grade 4 Reading % at/above Proficient	Grade 8 Math % at/above Proficient	Grade 8 Reading % at/above Proficient	Average SAT Score	Average ACT Score	Average MCAT Score
 1	Massachusetts	42.90%	42.61%	35.06%	39.80%	1,112	26	515
 5	Connecticut	37.01%	34.62%	29.95%	34.77%	1,007	26	514
@@ -68,7 +71,9 @@ data1 = """Rank	State	Grade 4 Math % at/above Proficient	Grade 4 Reading % at/ab
 46	Nevada	28.39%	26.92%	20.82%	28.80%	1,166	17	509
 """
 
-# [Per Pupil Spending by State 2024](https://worldpopulationreview.com/state-rankings/per-pupil-spending-by-state)
+#%%[markdown]
+# src: [Per Pupil Spending by State 2024](https://worldpopulationreview.com/state-rankings/per-pupil-spending-by-state)
+#%%
 data2 = """State	Public Spending Per K-12 Student	Public Funding Per K-12 Student	Cost Of Living Index	K-12 Spending As Perc Taxpayer Income	Teachers As A Percent Of Staff Salaries	Public Education Average Post Secondary
 Alabama	$10,108	$11,377	88.80	3.42%	56.9%	$21,760
 Alaska	$18,392	$19,553	124.40	5.2%	46.1%	$27,266
@@ -178,8 +183,8 @@ dfm.describe()
 ### Compare IL to basic descriptive stats (mean, 25/50/75th percentiles, etc.) aggregating all US states.
 # IL's values for each column are divided by the national aggregate for each column, and reported as a percentage. Therefore:
 # *   100: IL equivalent to the national aggregate.
-# * < 100: IL underperforms the national aggregate (bad! Except for COL and total tax revenue).
-# * > 100: IL outperforms the national aggregate (good! Except for COL and total tax revenue).
+# * &lt; 100: IL underperforms the national aggregate (bad! Except for COL and total tax revenue).
+# * &gt; 100: IL outperforms the national aggregate (good! Except for COL and total tax revenue).
 #%%
 round(
     (dfm.loc["Illinois"] / dfm.describe() * 100).loc[
@@ -241,3 +246,54 @@ dfm_vfm_g8read.head(10)
 #%%
 # bottom 10 states
 dfm_vfm_g8read.tail(10)
+
+
+
+#%%[markdown]
+### Out of curiosity, what is the most-informative feature in the dataset?
+#%%
+from sklearn.feature_selection import SelectKBest, mutual_info_regression
+
+# select the 3 most informative features
+kbest = SelectKBest(mutual_info_regression, k=3)
+dfm_selected = kbest.fit(
+    dfm.dropna()[list(set(dfm.columns)-set(["Grade 8 Math % at/above Proficient"]))], 
+    dfm.dropna()["Grade 8 Math % at/above Proficient"])
+print(dfm_selected.get_feature_names_out())
+dfm_selected
+# %%
+# Train a random forest on dfm to predict "Grade 8 Math % at/above Proficient", and in sorted order, print the best features found by the RF.
+import pandas as pd
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split
+
+# Load the dataset
+df = dfm
+
+# Split the dataset into training and testing sets
+X = df.dropna()[list(set(df.columns)-set(["Grade 8 Math % at/above Proficient"]))]
+y = df.dropna()['Grade 8 Math % at/above Proficient']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train a random forest classifier on the training set
+rf = RandomForestRegressor(n_estimators=10, random_state=42)
+rf.fit(X_train, y_train)
+
+# Print the best features found by the RF
+pd.DataFrame(zip(rf.feature_names_in_, rf.feature_importances_),columns=["name","importance"]).sort_values(by="importance", ascending=False)
+
+# %%
+# Same now, except for Grade 8 Reading.
+# Split the dataset into training and testing sets
+X = df.dropna()[list(set(df.columns)-set(["Grade 8 Reading % at/above Proficient"]))]
+y = df.dropna()['Grade 8 Reading % at/above Proficient']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train a random forest classifier on the training set
+rf = RandomForestRegressor(n_estimators=10, random_state=42)
+rf.fit(X_train, y_train)
+
+# Print the best features found by the RF
+pd.DataFrame(zip(rf.feature_names_in_, rf.feature_importances_),columns=["name","importance"]).sort_values(by="importance", ascending=False)
+
+# %%
