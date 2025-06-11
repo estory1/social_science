@@ -392,7 +392,7 @@ X = df.dropna()[list(set(df.columns)-set(["Grade 8 Math % at/above Proficient"])
 y = df.dropna()['Grade 8 Math % at/above Proficient']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Train a random forest classifier on the training set
+# Train a random forest regressor on the training set
 rf = RandomForestRegressor(n_estimators=10, random_state=42)
 rf.fit(X_train, y_train)
 
@@ -406,7 +406,7 @@ X = df.dropna()[list(set(df.columns)-set(["Grade 8 Reading % at/above Proficient
 y = df.dropna()['Grade 8 Reading % at/above Proficient']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Train a random forest classifier on the training set
+# Train a random forest regressor on the training set
 rf = RandomForestRegressor(n_estimators=10, random_state=42)
 rf.fit(X_train, y_train)
 
@@ -420,7 +420,7 @@ X = df.dropna()[list(set(df.columns)-set(["Average MCAT Score"]))]
 y = df.dropna()['Average MCAT Score']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Train a random forest classifier on the training set
+# Train a random forest regressor on the training set
 rf = RandomForestRegressor(n_estimators=10, random_state=42)
 rf.fit(X_train, y_train)
 
@@ -434,7 +434,7 @@ X = df.dropna()[list(set(df.columns)-set(["Average ACT Score"]))]
 y = df.dropna()['Average ACT Score']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Train a random forest classifier on the training set
+# Train a random forest regressor on the training set
 rf = RandomForestRegressor(n_estimators=10, random_state=42)
 rf.fit(X_train, y_train)
 
@@ -448,7 +448,7 @@ X = df.dropna()[list(set(df.columns)-set(["Average SAT Score"]))]
 y = df.dropna()['Average SAT Score']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Train a random forest classifier on the training set
+# Train a random forest regressor on the training set
 rf = RandomForestRegressor(n_estimators=10, random_state=42)
 rf.fit(X_train, y_train)
 
